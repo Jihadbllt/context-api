@@ -1,12 +1,9 @@
-import LittleSpan from "./LittleSpan"
+const HeaderComp = ({ title }) => {
+    return (
+        <header>
+            <h1>{title}</h1>
+        </header>
+    );
+};
 
-const HeaderComp = () => {
-	return (
-		<header>
-			<h1>This is the Context API</h1>
-			<LittleSpan />
-		</header>
-	)
-}
-
-export default HeaderComp
+export default HeaderComp;

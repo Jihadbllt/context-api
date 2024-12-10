@@ -1,40 +1,61 @@
-import "./App.css"
+import { useContext } from "react";
+import { TaskContext } from "./context/TaskContext";
+import { ProfileContext } from "./context/ProfileContext";
+import HeaderComp from "./components/HeaderComp";
+import TaskButton from "./components/TaskButton";
+import TaskStatus from "./components/TaskStatus";
 
-import ButtonComp from "./components/ButtonComp"
-// import { useContext } from "react"
-//import { CountContext } from "./context/CountContext"
-import HeaderComp from "./components/HeaderComp"
+const App = () => {
+    const { tasksCompleted, setTasksCompleted } = useContext(TaskContext);
+    const { profile, setProfile } = useContext(ProfileContext); 
 
-function App() {
-	//const { count, setCount } = useContext(CountContext)
+    const completeTask = () => {
+        setTasksCompleted((prev) => prev + 1);
+    };
 
-	const user = null // change this to later to the use context user ❗
+    const handleProfileToggle = () => {
+        setProfile((prev) =>
+            prev
+                ? null
+                : { name: "Jane Doe", email: "jane.doe@example.com" }
+        );
+    };
 
-	// const handleClick = () => {
-	// 	setCount((prev) => prev + 1)
-	// }
+    return (
+        <div
+            className="app"
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "1em",
+                backgroundColor: profile ? "#1e3a8a" : "#7c2d12",
+                padding: "2em",
+                color: "white",
+                minHeight: "100vh",
+            }}
+        >
+            <HeaderComp title="Task Tracker" />
+            <TaskButton onClick={completeTask} text="Complete Task" />
+            <TaskStatus />
+            <button
+                onClick={handleProfileToggle}
+                style={{
+                    padding: "1em",
+                    backgroundColor: profile ? "#60a5fa" : "#fca5a5",
+                    color: "black",
+                    border: "none",
+                    cursor: "pointer",
+                }}
+            >
+                {profile ? "Logout" : "Login"}
+            </button>
+            {profile && (
+                <div className="profile" style={{ textAlign: "center" }}>
+                    Welcome, {profile.name}! ({profile.email})
+                </div>
+            )}
+        </div>
+    );
+};
 
-	//const handleLogIn = () => {
-	// }
-
-	return (
-		<main
-			className="app"
-			style={{
-				display: "flex",
-				flexDirection: "column",
-				gap: "1em",
-				backgroundColor: user ? "#024d1021" : "#4d020221",
-				padding: ".5em",
-			}}
-		>
-			<HeaderComp />
-			<ButtonComp text="add" onclick={() => true} />
-			Your result is dynamic count here ...
-			{/* You'll need another button comp here later */}
-			{user && <div className="alert">You are now logged in !!!</div>}
-		</main>
-	)
-}
-
-export default App
+export default App;
